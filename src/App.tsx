@@ -1,6 +1,8 @@
 import React from "react";
-import { ReactComponent as Icon } from "./icons/clear-sky.svg";
 import "./App.less";
+import weatherIcons from "./icons";
+
+const Icon = weatherIcons["02d"];
 
 const CITIES = ["Ottawa", "Moscow", "Tokyo"];
 const DAYS = [
