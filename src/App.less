@@ -1,38 +1,112 @@
+@color-white: #ffffff;
+@color-primary: #333338;
+@color-primary-hover: #5fb0e8;
+@color-secondary: #edf6fa;
+
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+  background-color: @color-secondary;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.cities {
+display: flex;
+
+& > *:not(:last-child) {
+  margin-right: 110px;
+}
+
+}
+.city {
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  color: @color-primary;
+  text-transform: uppercase;
+  font-size: 36px;
+  font-weight: 300;
+
+  &:hover {
+    color: @color-primary-hover;
+    font-weight: 500;
   }
-  to {
-    transform: rotate(360deg);
+
+}
+
+.weather {
+  margin-top: 40px;
+  width: 100%;
+  border: 4px solid @color-white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.today {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 4px solid @color-white;
+}
+
+.today-title {
+  font-size: 36px;
+}
+
+.today-info {
+  display: flex;
+}
+
+.today-icon {
+  width: 150px;
+  height: 150px;
+}
+
+.today-weather{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.today-temperature {
+  font-weight: 600;
+  font-size: 40px;
+}
+
+.today-description {
+  font-size: 24px;
+}
+
+.days {
+  display: flex;
+
+  & > *:not(:last-child) {
+    border-right: 4px solid @color-white;
   }
+}
+
+.day {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.day-icon {
+  width: 100px;
+  height: 100px;
 }
