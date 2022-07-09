@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import "./App.less";
 import weatherIcons from "./icons";
 
@@ -28,41 +28,64 @@ const DAYS = [
   },
 ];
 
-function App() {
-  return (
-    <div className="App">
-      <div className="container">
-        <div className="cities">
-          {CITIES.map((city) => (
-            <button key={city} className="city">
-              {city.toUpperCase()}
-            </button>
-          ))}
-        </div>
-        <div className="weather">
-          <div className="today">
-            <span className="today-title">Today</span>
-            <div className="today-info">
-              <Icon className="today-icon" />
-              <div className="today-weather">
-                <span className="today-temperature">{`19°`}</span>
-                <span className="today-description">Clouds</span>
+interface AppProps {
+  children?: React.ReactNode;
+}
+interface AppState {
+  city: string;
+}
+
+class App extends Component<AppProps, AppState> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      city: CITIES[0],
+    };
+  }
+  setCity = (newCity: string) => this.setState({ city: newCity });
+  render = () => {
+    return (
+      <div className="App">
+        <div className="container">
+          <div className="cities">
+            {CITIES.map((city) => (
+              <button
+                key={city}
+                className={`city ${
+                  this.state.city === city ? "city-active" : ""
+                }`}
+                disabled={this.state.city === city}
+                onClick={() => this.setCity(city)}
+              >
+                {city.toUpperCase()}
+              </button>
+            ))}
+          </div>
+          <div className="weather">
+            <div className="today">
+              <span className="today-title">Today</span>
+              <div className="today-info">
+                <Icon className="today-icon" />
+                <div className="today-weather">
+                  <span className="today-temperature">{`19°`}</span>
+                  <span className="today-description">Clouds</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="days">
-            {DAYS.map(({ dayOfWeek, icon: Icon, temperature }, index) => (
-              <div key={index} className="day">
-                <span className="day-week">{dayOfWeek}</span>
-                <Icon className="day-icon" />
-                <span className="day-temperature">{`${temperature}°`}</span>
-              </div>
-            ))}
+            <div className="days">
+              {DAYS.map(({ dayOfWeek, icon: Icon, temperature }, index) => (
+                <div key={index} className="day">
+                  <span className="day-week">{dayOfWeek}</span>
+                  <Icon className="day-icon" />
+                  <span className="day-temperature">{`${temperature}°`}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 }
 
 export default App;
