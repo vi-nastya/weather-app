@@ -14,7 +14,7 @@ import { ReactComponent as MistIcon } from "./icons/mist.svg";
 // icons pack https://www.iconfinder.com/iconsets/weather-color-2
 // open weather API icon codes: https://openweathermap.org/weather-conditions#How-to-get-icon-URL
 
-const weatherIcons = {
+export const WEATHER_ICONS = {
   "01d": ClearSkyIcon,
   "01n": ClearSkyNightIcon,
   "02d": FewCouldsIcon,
@@ -36,4 +36,4 @@ const weatherIcons = {
   "50n": MistIcon,
 };
 
-export default weatherIcons;
+export type WeatherApiIconType = keyof typeof WEATHER_ICONS;
