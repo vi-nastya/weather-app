@@ -16,6 +16,7 @@ type WeatherProps = {
 type WeatherState = {
   weather: WeatherAPIResponse | null;
   isLoading: boolean;
+  isError: boolean;
 };
 
 const getWeekdayFromTimestamp = (
@@ -33,24 +34,31 @@ class Weather extends Component<WeatherProps, WeatherState> {
     this.state = {
       weather: null,
       isLoading: false,
+      isError: false,
     };
   }
 
-  fetchWeather() {
-    this.setState({ isLoading: true });
+  fetchWeather = async () => {
     const getData = (city: City) =>
       fetch(
         `${WEATHER_API}?lat=${city.lat}&lon=${city.lon}&exclude=minutely,hourly,alerts&appid=${API_APP_ID}&units=metric`
       );
 
-    this.setState({ weather: null });
-    getData(CITIES.find((city) => city.name === this.props.city) as City)
-      .then((response) => response.json())
-      .then((weatherData) => {
-        this.setState({ weather: weatherData });
-      });
-    this.setState({ isLoading: false });
-  }
+    this.setState({ weather: null, isError: false, isLoading: true });
+
+    const response = await getData(
+      CITIES.find((city) => city.name === this.props.city) as City
+    );
+
+    if (response.status !== 200) {
+      this.setState({ isError: true, isLoading: false, weather: null });
+      return;
+    }
+
+    const weatherData = await response.json();
+
+    this.setState({ weather: weatherData, isLoading: false, isError: false });
+  };
 
   componentDidMount() {
     this.fetchWeather();
@@ -63,7 +71,16 @@ class Weather extends Component<WeatherProps, WeatherState> {
   }
 
   render = () => {
-    if (!this.state.weather) {
+    if (this.state.isError) {
+      return (
+        <div className={`${styles.wrapper} ${styles.wrapperEmpty}`}>
+          <span className={styles.error}>Something went wrong</span>
+        </div>
+      );
+    }
+
+    const weather = this.state.weather;
+    if (this.state.isLoading || !weather) {
       return (
         <div className={`${styles.wrapper} ${styles.wrapperEmpty}`}>
           <Spinner />
@@ -71,7 +88,7 @@ class Weather extends Component<WeatherProps, WeatherState> {
       );
     }
 
-    const daysData = this.state.weather.daily.slice(1, 5).map((item) => ({
+    const daysData = weather.daily.slice(1, 5).map((item) => ({
       weekday: getWeekdayFromTimestamp(item.dt, this.state.weather!.timezone),
       icon: item.weather[0].icon,
       temperature: Math.round(item.temp.day),
@@ -80,9 +97,9 @@ class Weather extends Component<WeatherProps, WeatherState> {
     return (
       <div className={styles.wrapper}>
         <TodayWeather
-          temperature={Math.round(this.state.weather.current.temp)}
-          icon={this.state.weather.current.weather[0].icon}
-          description={this.state.weather.current.weather[0].description}
+          temperature={Math.round(weather.current.temp)}
+          icon={weather.current.weather[0].icon}
+          description={weather.current.weather[0].description}
         />
         <DaysWeather days={daysData} />
       </div>
