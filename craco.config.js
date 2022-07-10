@@ -1,9 +1,10 @@
+const CracoLessPlugin = require("craco-less");
+
 module.exports = {
   plugins: [
     {
-      plugin: require("craco-less"),
+      plugin: CracoLessPlugin,
       options: {
-        noIeCompat: true,
         lessLoaderOptions: {
           lessOptions: {
             modifyVars: {
@@ -13,6 +14,18 @@ module.exports = {
               "@color-secondary": "#edf6fa",
             },
             javascriptEnabled: true,
+          },
+        },
+        modifyLessRule: function (lessRule, context) {
+          lessRule.test = /\.module\.(less)$/;
+          lessRule.exclude = undefined;
+          return lessRule;
+        },
+        cssLoaderOptions: {
+          modules: {
+            localIdentName: "[local]_[hash:base64:5]",
+            auto: true,
+            exportLocalsConvention: "camelCaseOnly",
           },
         },
       },
