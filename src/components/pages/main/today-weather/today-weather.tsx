@@ -8,6 +8,9 @@ type TodayWeatherProps = {
   icon: WeatherApiIconType;
 };
 
+const capitalizeFirstLetter = (str: string): string =>
+  `${str[0].toUpperCase()}${str.slice(1)}`;
+
 class TodayWeather extends Component<TodayWeatherProps, {}> {
   render = () => {
     const CurrentWeatherIcon = WEATHER_ICONS[this.props.icon];
@@ -21,7 +24,9 @@ class TodayWeather extends Component<TodayWeatherProps, {}> {
             <span
               className={styles.temperature}
             >{`${this.props.temperature}°`}</span>
-            <span className={styles.description}>{this.props.description}</span>
+            <span className={styles.description}>
+              {capitalizeFirstLetter(this.props.description)}
+            </span>
           </div>
         </div>
       </div>
