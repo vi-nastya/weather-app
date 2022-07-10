@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { CITIES } from "../../../../constants/cities";
-import { WEATHER_ICONS } from "../../../../icons";
-import { City } from "../../../../types/cities";
-import { WeatherAPIResponse } from "../../../../types/weather";
+import { CITIES } from "constants/cities";
+import { WEATHER_ICONS } from "icons";
+import { City } from "types/cities";
+import { WeatherAPIResponse } from "types/weather";
+import Spinner from "components/shared/spinner";
+import TodayWeather from "components/pages/main/today-weather";
 import styles from "./weather.module.less";
 
 const WEATHER_API = "https://api.openweathermap.org/data/3.0/onecall";
@@ -13,6 +15,7 @@ type WeatherProps = {
 };
 type WeatherState = {
   weather: WeatherAPIResponse | null;
+  isLoading: boolean;
 };
 
 const getWeekdayFromTimestamp = (timestamp: number, timeZone: string): string =>
@@ -26,10 +29,12 @@ class Weather extends Component<WeatherProps, WeatherState> {
     super(props);
     this.state = {
       weather: null,
+      isLoading: false,
     };
   }
 
   fetchWeather() {
+    this.setState({ isLoading: true });
     const getData = (city: City) =>
       fetch(
         `${WEATHER_API}?lat=${city.lat}&lon=${city.lon}&exclude=minutely,hourly,alerts&appid=${API_APP_ID}&units=metric`
@@ -41,6 +46,7 @@ class Weather extends Component<WeatherProps, WeatherState> {
       .then((weatherData) => {
         this.setState({ weather: weatherData });
       });
+    this.setState({ isLoading: false });
   }
 
   componentDidMount() {
@@ -54,10 +60,6 @@ class Weather extends Component<WeatherProps, WeatherState> {
   }
 
   render = () => {
-    const CurrentWeatherIcon = this.state.weather
-      ? WEATHER_ICONS[this.state.weather.current.weather[0].icon]
-      : null;
-
     let daysData = null;
     if (this.state.weather) {
       daysData = this.state.weather.daily.slice(1, 5).map((item) => ({
@@ -68,27 +70,16 @@ class Weather extends Component<WeatherProps, WeatherState> {
     }
 
     if (!this.state.weather) {
-      return <div>TODO: LOADER</div>;
+      return <Spinner />;
     }
 
     return (
       <div className={styles.wrapper}>
-        <div className={styles.today}>
-          <span className={styles.todayTitle}>Today</span>
-          <div className={styles.todayInfo}>
-            {CurrentWeatherIcon && (
-              <CurrentWeatherIcon className={styles.todayIcon} />
-            )}
-            <div className={styles.todayWeather}>
-              <span className={styles.todayTemperature}>{`${Math.round(
-                this.state.weather.current.temp
-              )}°`}</span>
-              <span className={styles.todayDescription}>
-                {this.state.weather.current.weather[0].description}
-              </span>
-            </div>
-          </div>
-        </div>
+        <TodayWeather
+          temperature={Math.round(this.state.weather.current.temp)}
+          icon={this.state.weather.current.weather[0].icon}
+          description={this.state.weather.current.weather[0].description}
+        />
         <div className={styles.days}>
           {daysData &&
             daysData.map(({ weekday, icon: Icon, temperature }, index) => (

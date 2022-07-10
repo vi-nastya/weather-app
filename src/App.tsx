@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Cities from "./components/pages/main/cities";
-import Weather from "./components/pages/main/weather";
-import Layout from "./components/shared/layout";
-import { CITIES } from "./constants/cities";
+import Cities from "components/pages/main/cities";
+import Weather from "components/pages/main/weather";
+import Layout from "components/shared/layout";
+import { CITIES } from "constants/cities";
 
 type AppProps = {
   children?: React.ReactNode;
