@@ -144,8 +144,12 @@ class App extends Component<AppProps, AppState> {
                     <CurrentWeatherIcon className="today-icon" />
                   )}
                   <div className="today-weather">
-                    <span className="today-temperature">{`19°`}</span>
-                    <span className="today-description">Clouds</span>
+                    <span className="today-temperature">{`${Math.round(
+                      this.state.weather.current.temp
+                    )}°`}</span>
+                    <span className="today-description">
+                      {this.state.weather.current.weather[0].description}
+                    </span>
                   </div>
                 </div>
               </div>
