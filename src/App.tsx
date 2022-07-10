@@ -61,6 +61,12 @@ type APIResponse = {
   daily: Array<DailyWeather>;
 };
 
+const getWeekdayFromTimestamp = (timestamp: number, timeZone: string): string =>
+  new Date(timestamp * 1000).toLocaleString("en-US", {
+    weekday: "short",
+    timeZone,
+  });
+
 class App extends Component<AppProps, AppState> {
   constructor(props: any) {
     super(props);
@@ -103,8 +109,8 @@ class App extends Component<AppProps, AppState> {
 
     let daysData = null;
     if (this.state.weather) {
-      daysData = this.state.weather.daily.slice(4).map((item) => ({
-        dayOfWeek: item.dt,
+      daysData = this.state.weather.daily.slice(1, 5).map((item) => ({
+        weekday: getWeekdayFromTimestamp(item.dt, this.state.weather!.timezone),
         icon: WEATHER_ICONS[item.weather[0].icon],
         temperature: Math.round(item.temp.day),
       }));
@@ -146,9 +152,9 @@ class App extends Component<AppProps, AppState> {
               <div className="days">
                 {daysData &&
                   daysData.map(
-                    ({ dayOfWeek, icon: Icon, temperature }, index) => (
+                    ({ weekday, icon: Icon, temperature }, index) => (
                       <div key={index} className="day">
-                        <span className="day-week">{dayOfWeek}</span>
+                        <span className="day-weekday">{weekday}</span>
                         <Icon className="day-icon" />
                         <span className="day-temperature">{`${temperature}°`}</span>
                       </div>
