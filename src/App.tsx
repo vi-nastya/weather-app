@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import "./App.less";
 import { WEATHER_ICONS, WeatherApiIconType } from "./icons";
 
-const Icon = WEATHER_ICONS["02d"];
-
 const WEATHER_API = "https://api.openweathermap.org/data/3.0/onecall";
 const API_APP_ID = process.env.REACT_APP_WEATHER_APPID;
 
@@ -31,29 +29,6 @@ const CITIES: City[] = [
   },
 ];
 
-const DAYS = [
-  {
-    dayOfWeek: "Wed",
-    icon: Icon,
-    temperature: 18,
-  },
-  {
-    dayOfWeek: "Thu",
-    icon: Icon,
-    temperature: 19,
-  },
-  {
-    dayOfWeek: "Fri",
-    icon: Icon,
-    temperature: 20,
-  },
-  {
-    dayOfWeek: "Sat",
-    icon: Icon,
-    temperature: 21,
-  },
-];
-
 type AppProps = {
   children?: React.ReactNode;
 };
@@ -72,7 +47,7 @@ type DailyWeather = {
   temp: {
     day: number;
   };
-  weather: Weather;
+  weather: Weather[];
 };
 
 type APIResponse = {
@@ -126,6 +101,15 @@ class App extends Component<AppProps, AppState> {
       ? WEATHER_ICONS[this.state.weather.current.weather[0].icon]
       : null;
 
+    let daysData = null;
+    if (this.state.weather) {
+      daysData = this.state.weather.daily.slice(4).map((item) => ({
+        dayOfWeek: item.dt,
+        icon: WEATHER_ICONS[item.weather[0].icon],
+        temperature: Math.round(item.temp.day),
+      }));
+    }
+
     return (
       <div className="App">
         <div className="container">
@@ -160,13 +144,16 @@ class App extends Component<AppProps, AppState> {
                 </div>
               </div>
               <div className="days">
-                {DAYS.map(({ dayOfWeek, icon: Icon, temperature }, index) => (
-                  <div key={index} className="day">
-                    <span className="day-week">{dayOfWeek}</span>
-                    <Icon className="day-icon" />
-                    <span className="day-temperature">{`${temperature}°`}</span>
-                  </div>
-                ))}
+                {daysData &&
+                  daysData.map(
+                    ({ dayOfWeek, icon: Icon, temperature }, index) => (
+                      <div key={index} className="day">
+                        <span className="day-week">{dayOfWeek}</span>
+                        <Icon className="day-icon" />
+                        <span className="day-temperature">{`${temperature}°`}</span>
+                      </div>
+                    )
+                  )}
               </div>
             </div>
           )}
