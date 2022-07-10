@@ -21,7 +21,6 @@ export const WEATHER_ICONS = {
   "02n": FewCouldsNightIcon,
   "03d": ScatteredCloudsIcon,
   "03n": ScatteredCloudsIcon,
-  // TODO: update icon
   "04d": BrokenCloudsIcon,
   "04n": BrokenCloudsIcon,
   "09d": ShowerRainIcon,
