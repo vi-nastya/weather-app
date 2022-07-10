@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import "./App.less";
-import Cities from "./components/cities";
-import Weather from "./components/weather";
+import Cities from "./components/pages/main/cities";
+import Weather from "./components/pages/main/weather";
+import Layout from "./components/shared/layout";
 import { CITIES } from "./constants/cities";
 
 type AppProps = {
@@ -23,12 +23,10 @@ class App extends Component<AppProps, AppState> {
 
   render = () => {
     return (
-      <div className="App">
-        <div className="container">
-          <Cities city={this.state.city} onCityChange={this.setCity} />
-          <Weather city={this.state.city} />
-        </div>
-      </div>
+      <Layout>
+        <Cities city={this.state.city} onCityChange={this.setCity} />
+        <Weather city={this.state.city} />
+      </Layout>
     );
   };
 }

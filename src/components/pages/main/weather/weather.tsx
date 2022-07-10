@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { CITIES } from "../../constants/cities";
-import { WEATHER_ICONS } from "../../icons";
-import { City } from "../../types/cities";
-import { WeatherAPIResponse } from "../../types/weather";
+import { CITIES } from "../../../../constants/cities";
+import { WEATHER_ICONS } from "../../../../icons";
+import { City } from "../../../../types/cities";
+import { WeatherAPIResponse } from "../../../../types/weather";
 import styles from "./weather.module.less";
 
 const WEATHER_API = "https://api.openweathermap.org/data/3.0/onecall";
