@@ -4,6 +4,15 @@
   & > *:not(:last-child) {
     border-right: 4px solid @color-white;
   }
+
+  @media (max-width: @screen-sm) {
+    flex-direction: column;
+
+    & > *:not(:last-child) {
+      border-right: none;
+      border-bottom: 4px solid @color-white;
+    }
+  }
 }
 
 .day {
@@ -13,12 +22,28 @@
   align-items: center;
   padding-top: 25px;
   padding-bottom: 30px;
+
+  @media (max-width: @screen-sm) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }
 
 .icon {
   margin-bottom: 12px;
   width: 100px;
   height: 100px;
+
+  @media (max-width: @screen-sm) {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 0;
+  }
 }
 
 .weekday {
@@ -26,6 +51,10 @@
   font-weight: 300;
   line-height: 1;
   color: @color-primary;
+
+  @media (max-width: @screen-sm) {
+    font-size: 20px;
+  }
 }
 
 .temperature {
@@ -33,4 +62,8 @@
   font-size: 30px;
   line-height: 1;
   color: @color-primary;
+
+  @media (max-width: @screen-sm) {
+    font-size: 24px;
+  }
 }

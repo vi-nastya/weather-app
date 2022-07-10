@@ -13,6 +13,8 @@ module.exports = {
               "@color-primary-hover": "#5fb0e8",
               "@color-secondary": "#edf6fa",
               "@font-primary": "'Open Sans', sans-serif",
+              "screen-md": "1023.99px",
+              "screen-sm": "768px",
             },
             javascriptEnabled: true,
           },
