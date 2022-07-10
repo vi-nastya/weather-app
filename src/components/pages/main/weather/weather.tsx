@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { CITIES } from "constants/cities";
-import { WEATHER_ICONS } from "icons";
 import { City } from "types/cities";
-import { WeatherAPIResponse } from "types/weather";
+import { WeatherAPIResponse, Weekday } from "types/weather";
 import Spinner from "components/shared/spinner";
 import TodayWeather from "components/pages/main/today-weather";
 import styles from "./weather.module.less";
+import DaysWeather from "components/pages/main/days-weather";
 
 const WEATHER_API = "https://api.openweathermap.org/data/3.0/onecall";
 const API_APP_ID = process.env.REACT_APP_WEATHER_APPID;
@@ -18,11 +18,14 @@ type WeatherState = {
   isLoading: boolean;
 };
 
-const getWeekdayFromTimestamp = (timestamp: number, timeZone: string): string =>
+const getWeekdayFromTimestamp = (
+  timestamp: number,
+  timeZone: string
+): Weekday =>
   new Date(timestamp * 1000).toLocaleString("en-US", {
     weekday: "short",
     timeZone,
-  });
+  }) as Weekday;
 
 class Weather extends Component<WeatherProps, WeatherState> {
   constructor(props: any) {
@@ -60,18 +63,19 @@ class Weather extends Component<WeatherProps, WeatherState> {
   }
 
   render = () => {
-    let daysData = null;
-    if (this.state.weather) {
-      daysData = this.state.weather.daily.slice(1, 5).map((item) => ({
-        weekday: getWeekdayFromTimestamp(item.dt, this.state.weather!.timezone),
-        icon: WEATHER_ICONS[item.weather[0].icon],
-        temperature: Math.round(item.temp.day),
-      }));
+    if (!this.state.weather) {
+      return (
+        <div className={`${styles.wrapper} ${styles.wrapperEmpty}`}>
+          <Spinner />
+        </div>
+      );
     }
 
-    if (!this.state.weather) {
-      return <Spinner />;
-    }
+    const daysData = this.state.weather.daily.slice(1, 5).map((item) => ({
+      weekday: getWeekdayFromTimestamp(item.dt, this.state.weather!.timezone),
+      icon: item.weather[0].icon,
+      temperature: Math.round(item.temp.day),
+    }));
 
     return (
       <div className={styles.wrapper}>
@@ -80,18 +84,7 @@ class Weather extends Component<WeatherProps, WeatherState> {
           icon={this.state.weather.current.weather[0].icon}
           description={this.state.weather.current.weather[0].description}
         />
-        <div className={styles.days}>
-          {daysData &&
-            daysData.map(({ weekday, icon: Icon, temperature }, index) => (
-              <div key={index} className={styles.day}>
-                <span className={styles.dayWeekday}>{weekday}</span>
-                <Icon className={styles.dayIcon} />
-                <span
-                  className={styles.dayTemperature}
-                >{`${temperature}°`}</span>
-              </div>
-            ))}
-        </div>
+        <DaysWeather days={daysData} />
       </div>
     );
   };

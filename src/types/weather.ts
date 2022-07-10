@@ -23,3 +23,5 @@ export type WeatherAPIResponse = {
   };
   daily: Array<DailyWeather>;
 };
+
+export type Weekday = "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun";

@@ -1,5 +1,5 @@
 .wrapper {
-  min-height: 520px;
+  min-height: 512px;
   margin-top: 40px;
   width: 100%;
   border: 4px solid @color-white;
@@ -8,24 +8,7 @@
   flex-direction: column;
 }
 
-.days {
-  display: flex;
-
-  & > *:not(:last-child) {
-    border-right: 4px solid @color-white;
-  }
-}
-
-.day {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+.wrapper-empty {
   align-items: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
-}
-
-.day-icon {
-  width: 100px;
-  height: 100px;
+  justify-content: center;
 }
