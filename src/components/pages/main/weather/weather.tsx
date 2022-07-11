@@ -34,18 +34,20 @@ class Weather extends Component<WeatherProps, WeatherState> {
       (city) => city.name === this.props.city
     ) as City;
 
-    const response = await fetch(
-      `/.netlify/functions/weather?lat=${currentCity.lat}&lon=${currentCity.lon}`
-    );
+    try {
+      const response = await fetch(
+        `/.netlify/functions/weather?lat=${currentCity.lat}&lon=${currentCity.lon}`
+      );
 
-    if (response.status !== 200) {
+      if (response.status !== 200) {
+        throw new Error("Request failed");
+      }
+
+      const weatherData = await response.json();
+      this.setState({ weather: weatherData, isLoading: false, isError: false });
+    } catch (err) {
       this.setState({ isError: true, isLoading: false, weather: null });
-      return;
     }
-
-    const weatherData = await response.json();
-
-    this.setState({ weather: weatherData, isLoading: false, isError: false });
   };
 
   componentDidMount() {
