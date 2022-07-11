@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import clsx from "clsx";
 import { CITIES } from "constants/cities";
 import { City } from "types/cities";
 import { WeatherAPIResponse } from "types/weather";
@@ -63,7 +64,7 @@ class Weather extends Component<WeatherProps, WeatherState> {
   render = () => {
     if (this.state.isError) {
       return (
-        <div className={`${styles.wrapper} ${styles.wrapperEmpty}`}>
+        <div className={clsx(styles.wrapper, styles.wrapperEmpty)}>
           <span className={styles.error}>Something went wrong</span>
         </div>
       );
@@ -73,7 +74,7 @@ class Weather extends Component<WeatherProps, WeatherState> {
 
     if (this.state.isLoading || !weather) {
       return (
-        <div className={`${styles.wrapper} ${styles.wrapperEmpty}`}>
+        <div className={clsx(styles.wrapper, styles.wrapperEmpty)}>
           <Spinner />
         </div>
       );

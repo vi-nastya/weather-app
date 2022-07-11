@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import clsx from "clsx";
 import { CITIES } from "constants/cities";
 import styles from "./cities.module.less";
 
@@ -14,9 +15,10 @@ class Cities extends Component<CitiesProps> {
         {CITIES.map(({ name }) => (
           <button
             key={name}
-            className={`${styles.city} ${
-              this.props.city === name ? styles.cityActive : ""
-            }`}
+            className={clsx(
+              styles.city,
+              this.props.city === name && styles.cityActive
+            )}
             disabled={this.props.city === name}
             onClick={() => this.props.onCityChange(name)}
           >
