@@ -1,15 +1,13 @@
 import React, { Component } from "react";
 import { WeatherApiIconType, WEATHER_ICONS } from "icons";
 import styles from "./today-weather.module.less";
+import { capitalizeFirstLetter } from "utils/utils";
 
 type TodayWeatherProps = {
   temperature: number;
   description: string;
   icon: WeatherApiIconType;
 };
-
-const capitalizeFirstLetter = (str: string): string =>
-  `${str[0].toUpperCase()}${str.slice(1)}`;
 
 class TodayWeather extends Component<TodayWeatherProps, {}> {
   render = () => {

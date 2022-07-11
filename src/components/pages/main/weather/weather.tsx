@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { CITIES } from "constants/cities";
 import { City } from "types/cities";
-import { WeatherAPIResponse, Weekday } from "types/weather";
+import { WeatherAPIResponse } from "types/weather";
 import Spinner from "components/shared/spinner";
 import TodayWeather from "components/pages/main/today-weather";
 import styles from "./weather.module.less";
 import DaysWeather from "components/pages/main/days-weather";
+import { getWeekdayFromTimestamp } from "utils/utils";
 
 type WeatherProps = {
   city: string;
@@ -15,15 +16,6 @@ type WeatherState = {
   isLoading: boolean;
   isError: boolean;
 };
-
-const getWeekdayFromTimestamp = (
-  timestamp: number,
-  timeZone: string
-): Weekday =>
-  new Date(timestamp * 1000).toLocaleString("en-US", {
-    weekday: "short",
-    timeZone,
-  }) as Weekday;
 
 class Weather extends Component<WeatherProps, WeatherState> {
   constructor(props: any) {
@@ -36,13 +28,14 @@ class Weather extends Component<WeatherProps, WeatherState> {
   }
 
   fetchWeather = async () => {
-    const getData = (city: City) =>
-      fetch(`/.netlify/functions/weather?lat=${city.lat}&lon=${city.lon}`);
-
     this.setState({ weather: null, isError: false, isLoading: true });
 
-    const response = await getData(
-      CITIES.find((city) => city.name === this.props.city) as City
+    const currentCity = CITIES.find(
+      (city) => city.name === this.props.city
+    ) as City;
+
+    const response = await fetch(
+      `/.netlify/functions/weather?lat=${currentCity.lat}&lon=${currentCity.lon}`
     );
 
     if (response.status !== 200) {
@@ -75,6 +68,7 @@ class Weather extends Component<WeatherProps, WeatherState> {
     }
 
     const weather = this.state.weather;
+
     if (this.state.isLoading || !weather) {
       return (
         <div className={`${styles.wrapper} ${styles.wrapperEmpty}`}>
