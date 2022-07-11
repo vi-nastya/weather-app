@@ -19,7 +19,11 @@
     "react-scripts": "5.0.1",
     "typescript": "^4.7.4"
   },
+  "devDependencies": {
+    "netlify-cli": "^10.7.1"
+  },
   "scripts": {
+    "dev": "netlify dev",
     "start": "craco start",
     "build": "craco build",
     "eject": "react-scripts eject"
