@@ -14,7 +14,7 @@ body {
   font-style: normal;
   font-weight: 300;
   src: url('../fonts/open-sans-v29-latin-300.eot'); /* IE9 Compat Modes */
-  src: local(''),
+  src: local('Open Sans'),
        url('../fonts/open-sans-v29-latin-300.woff2') format('woff2'), /* Super Modern Browsers */
        url('../fonts/open-sans-v29-latin-300.woff') format('woff'), /* Modern Browsers */
        url('../fonts/open-sans-v29-latin-300.ttf') format('truetype'), /* Safari, Android, iOS */
@@ -25,7 +25,7 @@ body {
   font-style: normal;
   font-weight: 700;
   src: url('../fonts/open-sans-v29-latin-700.eot'); /* IE9 Compat Modes */
-  src: local(''),
+  src: local('Open Sans'),
        url('../fonts/open-sans-v29-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
        url('../fonts/open-sans-v29-latin-700.woff') format('woff'), /* Modern Browsers */
        url('../fonts/open-sans-v29-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */
