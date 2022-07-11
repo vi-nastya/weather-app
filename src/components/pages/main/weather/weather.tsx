@@ -7,9 +7,6 @@ import TodayWeather from "components/pages/main/today-weather";
 import styles from "./weather.module.less";
 import DaysWeather from "components/pages/main/days-weather";
 
-const WEATHER_API = "https://api.openweathermap.org/data/3.0/onecall";
-const API_APP_ID = process.env.REACT_APP_WEATHER_APPID;
-
 type WeatherProps = {
   city: string;
 };
@@ -40,9 +37,7 @@ class Weather extends Component<WeatherProps, WeatherState> {
 
   fetchWeather = async () => {
     const getData = (city: City) =>
-      fetch(
-        `${WEATHER_API}?lat=${city.lat}&lon=${city.lon}&exclude=minutely,hourly,alerts&appid=${API_APP_ID}&units=metric`
-      );
+      fetch(`/.netlify/functions/weather?lat=${city.lat}&lon=${city.lon}`);
 
     this.setState({ weather: null, isError: false, isLoading: true });
 
