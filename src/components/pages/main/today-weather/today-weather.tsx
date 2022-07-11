@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { WeatherApiIconType, WEATHER_ICONS } from "icons";
+import { WeatherApiIconType, WEATHER_ICONS } from "constants/icons";
 import styles from "./today-weather.module.less";
 import { capitalizeFirstLetter } from "utils/utils";
 

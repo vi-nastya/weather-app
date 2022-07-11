@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { WeatherApiIconType, WEATHER_ICONS } from "icons";
+import { WeatherApiIconType, WEATHER_ICONS } from "constants/icons";
 import styles from "./days-weather.module.less";
 import { Weekday } from "types/weather";
 

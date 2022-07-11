@@ -1,4 +1,4 @@
-import { WeatherApiIconType } from "icons";
+import { WeatherApiIconType } from "constants/icons";
 
 export type Weather = {
   description: string;
